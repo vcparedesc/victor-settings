@@ -6,6 +6,7 @@ wget http://download.qt.io/official_releases/online_installers/qt-unified-linux-
 wget https://www.arduino.cc/download_handler.php &
 wget http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/oxygen/R/eclipse-cpp-oxygen-R-linux-gtk-x86_64.tar.gz &
 
+cd -
 sudo apt update
 sudo apt upgrade
 
