@@ -19,3 +19,8 @@ touch .bash_profile
 echo "export LB_ELECTRONICS=$HOME/Documents/LimaBionics/electronics" >> .bash_profile
 echo "export LB_PROGRAMMING=$HOME/Documents/LimaBionics/programming" >> .bash_profile
 echo "export LB_MECHANICS=$HOME/Documents/LimaBionics/mechanics" >> .bash_profile
+
+touch .bash_aliases
+echo "alias cdel='cd ~/Documents/LimaBionics/electronics'" >> .bash_aliases
+echo "alias cdpr='cd ~/Documents/LimaBionics/programming'" >> .bash_aliases
+echo "alias cdmeT='cd ~/Documents/LimaBionics/mechanicsT'" >> .bash_aliases
