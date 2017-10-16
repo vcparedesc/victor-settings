@@ -1,4 +1,4 @@
-(set-face-attribute 'default nil :height 140)
+(set-face-attribute 'default nil :height 135)
 
 (setq delete-old-versions -1 )		; delete excess backup versions silently
 (setq version-control t )		; use version control
@@ -44,6 +44,7 @@
 (use-package counsel :ensure t)
 (use-package ivy :ensure t)
 (use-package swiper :ensure t)
+
 (general-define-key
   ;; replace default keybindings
   "C-s" 'swiper             ; search for string in current buffer
@@ -82,10 +83,11 @@
     "ar" 'ranger
     "ad" 'dired))
 
-(require 'ein)
-(require 'ein-loaddefs)
-(require 'ein-notebook)
-(require 'ein-subpackages)
+;;(use-package ein :ensure t)
+;; (require 'ein)
+;; (require 'ein-loaddefs)
+;; (require 'ein-notebook)
+;; (require 'ein-subpackages)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
