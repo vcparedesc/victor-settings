@@ -12,7 +12,36 @@
 (setq coding-system-for-write 'utf-8 )
 (setq sentence-end-double-space nil)	; sentence SHOULD end with only a point.
 (setq default-fill-column 80)		; toggle wrapping text at the 80th character
-(setq initial-scratch-message "Welcome Victor, enjoy coding in Emacs") ; print a default message in the empty scratch buffer opened at startup
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(setq initial-scratch-message "
+Hello Victor, enjoy this programming session!
+                                   :MMMo                                        
+                          `/hmo.  `mMMMM-  `+dh/`                               
+                          `mMMMMdNMMMMMMMNdMMMMN.                               
+                           -MMMMMMMMMMMMMMMMMMM/                                
+                      .---:mMMMMMdo:-.-:ohMMMMMm:---.                           
+                     .NMMMMMMMMh.         .yMMMMMMMMN.                          
+                     .omMMMMMMs             sMMMMMMms.        .::-              
+                        :MMMMM`             `MMMMM:    .`    `+ooo-    `.`      
+                       .oMMMMM-             .MMMMMo` -ooo+-.-/ooooo:../ooo/     
+                     -dMMMMMMMd`           `hMMMMMMMh-+ooooooooooooooooooo.     
+              syyo   `mMNNMMMMMm/`        /mMMMMMNNMm`/oooooo+////+oooooo+`     
+     `:o/`   :mmmm:   `/o-`yMMMMMNhs+++shNMMMMMy.////+oooo+-`      `-+ooooo////.
+     smmmdsoydmmmmdyoodmmm+oMMMMMMMMMMMMMMMMMMM+:oooooooo/            -oooooooo+
+     `hmmmmmmmmmmmmmmmmmmh-MMMMdoymMMMMMmhsmMMMN``-+oooo+              /ooooo:. 
+     :dmmmmmyo+//+ohmmmmmh-.os-   `NMMMd    -so.   :oooo/              -oooo/   
++mdddmmmmdo`        .smmmmmdddm-   :ddd-        `-/ooooo+`             /ooooo/-`
+odmmmmmmd-            /mmmmmmmd+                :oooooooo+`          `/oooooooo+
+  -hmmmm+              ymmmmy-                   ::--/ooooo/.`    `.:ooooo+--::`
+  `ymmmm+              smmmmo                         /oooooooo++oooooooo+      
+/ymmmmmmh`            -dmmmmmdo-                     .oooooooooooooooooooo.     
+smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-     
+`---.ommmmmho:-..-/odmmmmd/----                        `     `oooo`     `       
+     `hmmmmmmmmmmmmmmmmmmo                                    `..`              
+     smmmmhhdmmmmmmdhdmmmm:                                                     
+     -oho.   smmmm:   :sh+.                                                     
+             .dmms                                                
+") ; print a default message in the empty scratch buffer opened at startup
 
 (require 'package)
 (setq package-enable-at-startup nil)
