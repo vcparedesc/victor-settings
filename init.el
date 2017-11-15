@@ -1,4 +1,4 @@
-(set-face-attribute 'default nil :height 135)
+(set-face-attribute 'default nil :height 120)
 
 (setq delete-old-versions -1 )		; delete excess backup versions silently
 (setq version-control t )		; use version control
@@ -48,7 +48,8 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 (setq package-archives '(("org"       . "http://orgmode.org/elpa/")
                          ("gnu"       . "http://elpa.gnu.org/packages/")
                          ("melpa"     . "https://melpa.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("elpy"      . "https://jorgenschaefer.github.io/packages/")))
 (package-initialize) ; guess what this one does ?
 
 ;; Bootstrap `use-package'
@@ -112,7 +113,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
     "ar" 'ranger
     "ad" 'dired))
 
-;;(use-package ein :ensure t)
+(use-package ein :ensure t)
 ;; (require 'ein)
 ;; (require 'ein-loaddefs)
 ;; (require 'ein-notebook)
@@ -125,7 +126,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-irony flycheck-irony irony-eldoc irony ## flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
+    (py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -253,4 +254,15 @@ See URL `https://github.com/tensor5/JSLinter'."
  "C-x C-o" 'ff-find-other-file
  )
 
+(use-package better-defaults :ensure t)
+(use-package elpy :ensure t)
+(use-package py-autopep8 :ensure t)
 
+(elpy-enable)
+
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
