@@ -23,4 +23,4 @@ echo "export LB_MECHANICS=$HOME/Documents/LimaBionics/mechanics" >> .bash_profil
 touch .bash_aliases
 echo "alias cdel='cd ~/Documents/LimaBionics/electronics'" >> .bash_aliases
 echo "alias cdpr='cd ~/Documents/LimaBionics/programming'" >> .bash_aliases
-echo "alias cdmeT='cd ~/Documents/LimaBionics/mechanicsT'" >> .bash_aliases
+echo "alias cdme='cd ~/Documents/LimaBionics/mechanics'" >> .bash_aliases
