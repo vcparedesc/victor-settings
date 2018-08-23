@@ -18,7 +18,6 @@ sudo apt install shutter -y
 sudo apt install inkscape -y
 sudo apt install kicad -y
 sudo apt install valgrind -y
-
-git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-cp .spacemacs ~/
+sudo apt install cmake -y
+sudo apt install clang -y
 
