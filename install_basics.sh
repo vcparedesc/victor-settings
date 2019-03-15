@@ -20,4 +20,4 @@ sudo apt install kicad -y
 sudo apt install valgrind -y
 sudo apt install cmake -y
 sudo apt install clang -y
-
+sudo apt install g++-6 -y
