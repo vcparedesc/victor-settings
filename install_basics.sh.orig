@@ -11,7 +11,6 @@ sudo apt update
 sudo apt upgrade
 
 sudo apt install git -y
-sudo apt install meld -y
 sudo apt install konsole -y
 sudo apt install minicom -y
 sudo apt install emacs24 -y
@@ -21,8 +20,11 @@ sudo apt install kicad -y
 sudo apt install valgrind -y
 sudo apt install cmake -y
 sudo apt install clang -y
+<<<<<<< HEAD
 sudo apt install zsh -y
 sudo apt install fonts-powerline -y
-sudo apt install g++-6 -y
 
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+=======
+sudo apt install g++-6 -y
+>>>>>>> 29a7b368941daed610743b38e42e6a1ca16341f4
