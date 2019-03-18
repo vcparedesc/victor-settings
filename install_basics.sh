@@ -24,5 +24,6 @@ sudo apt install clang -y
 sudo apt install zsh -y
 sudo apt install fonts-powerline -y
 sudo apt install g++-6 -y
+sudo apt install tmux -y
 
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
