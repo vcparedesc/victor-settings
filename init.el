@@ -126,7 +126,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
+    (sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -266,3 +266,16 @@ See URL `https://github.com/tensor5/JSLinter'."
 
 (require 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
+;; adding matlab mode, consider to separate packages into files
+(add-to-list 'load-path "~/matlab-emacs-src")
+(load-library "matlab-load")
+;; Enable CEDET feature support for MATLAB code. (Optional)
+(matlab-cedet-setup)
+
+(use-package exec-path-from-shell :ensure t)
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
+(use-package ace-window :ensure t)
+(global-set-key (kbd "M-o") 'ace-window)
