@@ -27,5 +27,15 @@ sudo apt install g++-6 -y
 sudo apt install tmux -y
 sudo apt install wine1.6 -y
 sudo apt install texlive-full
+sudo apt install python3-pip
+sudo apt install python-pip
+
+# To provide functionality for elpy:
+pip install jedi
+pip install flake8
+pip install autopep8
+pip install yapf
+pip install black
+
 
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
