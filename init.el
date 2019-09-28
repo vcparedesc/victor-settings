@@ -1,4 +1,4 @@
-(set-face-attribute 'default nil :height 120)
+(set-face-attribute 'default nil :height 160)
 
 (setq delete-old-versions -1 )		; delete excess backup versions silently
 (setq version-control t )		; use version control
@@ -126,7 +126,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
+    (rtags cmake-ide ace-window exec-path-from-shell sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -139,7 +139,6 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 (yas-global-mode 1)
 (use-package sphinx-doc :ensure t)
 (use-package python-docstring :ensure t)
-
 
 (use-package json :ensure t)
 (use-package flycheck :ensure t)
@@ -177,6 +176,10 @@ See URL `https://github.com/tensor5/JSLinter'."
 (use-package flycheck-irony :ensure t)
 (use-package company-irony :ensure t)
 
+
+;; C++
+(use-package rtags :ensure t)
+(use-package cmake-ide :ensure t) 
 ;; =============
 ;; irony-mode
 ;; =============
@@ -239,6 +242,21 @@ See URL `https://github.com/tensor5/JSLinter'."
   (local-set-key [tab] 'irony--indent-or-complete))
 (add-hook 'c-mode-common-hook 'irony-mode-keys)
 
+(use-package company
+    ;; complete anything
+    :ensure t
+    :bind
+    (("C-x n" . company-select-next)
+     ("C-x p" . company-select-previous))
+    :init
+    ;;(add-hook 'after-init-hook 'global-company-mode)
+    (add-hook 'c-mode-common-hook 'company-mode)
+    (add-hook 'emacs-lisp-mode-hook 'company-mode))
+
+(global-set-key (kbd "C-c c") 'cmake-ide-compile)
+(global-set-key (kbd "C-c r") 'cmake-ide-maybe-run-cmake)
+(global-set-key (kbd "C-c g") 'rtags-find-symbol-at-point)
+
 ;; Linum Mode
 (global-linum-mode 1)
 (global-hl-line-mode +1)
@@ -268,10 +286,10 @@ See URL `https://github.com/tensor5/JSLinter'."
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 ;; adding matlab mode, consider to separate packages into files
-(add-to-list 'load-path "~/matlab-emacs-src")
-(load-library "matlab-load")
+;;(add-to-list 'load-path "~/matlab-emacs-src")
+;;(load-library "matlab-load")
 ;; Enable CEDET feature support for MATLAB code. (Optional)
-(matlab-cedet-setup)
+;;(matlab-cedet-setup)
 
 (use-package exec-path-from-shell :ensure t)
 (when (memq window-system '(mac ns x))
