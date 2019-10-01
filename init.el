@@ -1,46 +1,46 @@
-(set-face-attribute 'default nil :height 160)
+(set-face-attribute 'default nil :height 150)
 
-(setq delete-old-versions -1 )		; delete excess backup versions silently
-(setq version-control t )		; use version control
-(setq vc-make-backup-files t )		; make backups file even when in version controlled dir
+(setq delete-old-versions -1 )          ; delete excess backup versions silently
+(setq version-control t )               ; use version control
+(setq vc-make-backup-files t )          ; make backups file even when in version controlled dir
 (setq backup-directory-alist `(("." . "~/.emacs.d/backups")) ) ; which directory to put backups file
-(setq vc-follow-symlinks t )				       ; don't ask for confirmation when opening symlinked file
+(setq vc-follow-symlinks t )                                   ; don't ask for confirmation when opening symlinked file
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) ) ;transform backups file name
-(setq inhibit-startup-screen t )	; inhibit useless and old-school startup screen
-(setq ring-bell-function 'ignore )	; silent bell when you make a mistake
-(setq coding-system-for-read 'utf-8 )	; use utf-8 by default
+(setq inhibit-startup-screen t )        ; inhibit useless and old-school startup screen
+(setq ring-bell-function 'ignore )      ; silent bell when you make a mistake
+(setq coding-system-for-read 'utf-8 )   ; use utf-8 by default
 (setq coding-system-for-write 'utf-8 )
-(setq sentence-end-double-space nil)	; sentence SHOULD end with only a point.
-(setq default-fill-column 80)		; toggle wrapping text at the 80th character
+(setq sentence-end-double-space nil)    ; sentence SHOULD end with only a point.
+(setq default-fill-column 80)           ; toggle wrapping text at the 80th character
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (setq initial-scratch-message "
 Hello Victor, enjoy this programming session!
-                                   :MMMo                                        
-                          `/hmo.  `mMMMM-  `+dh/`                               
-                          `mMMMMdNMMMMMMMNdMMMMN.                               
-                           -MMMMMMMMMMMMMMMMMMM/                                
-                      .---:mMMMMMdo:-.-:ohMMMMMm:---.                           
-                     .NMMMMMMMMh.         .yMMMMMMMMN.                          
-                     .omMMMMMMs             sMMMMMMms.        .::-              
-                        :MMMMM`             `MMMMM:    .`    `+ooo-    `.`      
-                       .oMMMMM-             .MMMMMo` -ooo+-.-/ooooo:../ooo/     
-                     -dMMMMMMMd`           `hMMMMMMMh-+ooooooooooooooooooo.     
-              syyo   `mMNNMMMMMm/`        /mMMMMMNNMm`/oooooo+////+oooooo+`     
+                                   :MMMo
+                          `/hmo.  `mMMMM-  `+dh/`
+                          `mMMMMdNMMMMMMMNdMMMMN.
+                           -MMMMMMMMMMMMMMMMMMM/
+                      .---:mMMMMMdo:-.-:ohMMMMMm:---.
+                     .NMMMMMMMMh.         .yMMMMMMMMN.
+                     .omMMMMMMs             sMMMMMMms.        .::-
+                        :MMMMM`             `MMMMM:    .`    `+ooo-    `.`
+                       .oMMMMM-             .MMMMMo` -ooo+-.-/ooooo:../ooo/
+                     -dMMMMMMMd`           `hMMMMMMMh-+ooooooooooooooooooo.
+              syyo   `mMNNMMMMMm/`        /mMMMMMNNMm`/oooooo+////+oooooo+`
      `:o/`   :mmmm:   `/o-`yMMMMMNhs+++shNMMMMMy.////+oooo+-`      `-+ooooo////.
      smmmdsoydmmmmdyoodmmm+oMMMMMMMMMMMMMMMMMMM+:oooooooo/            -oooooooo+
-     `hmmmmmmmmmmmmmmmmmmh-MMMMdoymMMMMMmhsmMMMN``-+oooo+              /ooooo:. 
-     :dmmmmmyo+//+ohmmmmmh-.os-   `NMMMd    -so.   :oooo/              -oooo/   
+     `hmmmmmmmmmmmmmmmmmmh-MMMMdoymMMMMMmhsmMMMN``-+oooo+              /ooooo:.
+     :dmmmmmyo+//+ohmmmmmh-.os-   `NMMMd    -so.   :oooo/              -oooo/
 +mdddmmmmdo`        .smmmmmdddm-   :ddd-        `-/ooooo+`             /ooooo/-`
 odmmmmmmd-            /mmmmmmmd+                :oooooooo+`          `/oooooooo+
   -hmmmm+              ymmmmy-                   ::--/ooooo/.`    `.:ooooo+--::`
-  `ymmmm+              smmmmo                         /oooooooo++oooooooo+      
-/ymmmmmmh`            -dmmmmmdo-                     .oooooooooooooooooooo.     
-smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-     
-`---.ommmmmho:-..-/odmmmmd/----                        `     `oooo`     `       
-     `hmmmmmmmmmmmmmmmmmmo                                    `..`              
-     smmmmhhdmmmmmmdhdmmmm:                                                     
-     -oho.   smmmm:   :sh+.                                                     
-             .dmms                                                
+  `ymmmm+              smmmmo                         /oooooooo++oooooooo+
+/ymmmmmmh`            -dmmmmmdo-                     .oooooooooooooooooooo.
+smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
+`---.ommmmmho:-..-/odmmmmd/----                        `     `oooo`     `
+     `hmmmmmmmmmmmmmmmmmmo                                    `..`
+     smmmmhhdmmmmmmdhdmmmm:
+     -oho.   smmmm:   :sh+.
+             .dmms
 ") ; print a default message in the empty scratch buffer opened at startup
 
 (require 'package)
@@ -75,25 +75,6 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 (use-package ivy :ensure t)
 (use-package swiper :ensure t)
 
-(general-define-key
-  ;; replace default keybindings
-  "C-s" 'swiper             ; search for string in current buffer
-  "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
-  )
-
-(general-define-key
- :prefix "C-c"
- ;; bind to simple key press
-  "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
-  "/"   'counsel-git-grep   ; find string in git project
-  ;; bind to double key press
-  "f"   '(:ignore t :which-key "files")
-  "ff"  'counsel-find-file
-  "fr"	'counsel-recentf
-  "p"   '(:ignore t :which-key "project")
-  "pf"  '(counsel-git :which-key "find file in git dir")
-  )
-
 (use-package general :ensure t
   :config
   (general-define-key
@@ -126,7 +107,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (rtags cmake-ide ace-window exec-path-from-shell sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
+    (cmake-mode helm-projectile helm-rtags helm projectile flycheck-rtags company-rtags rtags cmake-ide ace-window exec-path-from-shell sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -139,6 +120,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 (yas-global-mode 1)
 (use-package sphinx-doc :ensure t)
 (use-package python-docstring :ensure t)
+(use-package cmake-mode :ensure t)
 
 (use-package json :ensure t)
 (use-package flycheck :ensure t)
@@ -176,86 +158,145 @@ See URL `https://github.com/tensor5/JSLinter'."
 (use-package flycheck-irony :ensure t)
 (use-package company-irony :ensure t)
 
+(use-package req-package :ensure t)
 
-;; C++
-(use-package rtags :ensure t)
-(use-package cmake-ide :ensure t) 
-;; =============
-;; irony-mode
-;; =============
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'c-mode-hook 'irony-mode)
-;; =============
-;; company mode
-;; =============
-(add-hook 'c++-mode-hook 'company-mode)
-(add-hook 'c-mode-hook 'company-mode)
-;; replace the `completion-at-point' and `complete-symbol' bindings in
-;; irony-mode's buffers by irony-mode's function
-(defun my-irony-mode-hook ()
-  (define-key irony-mode-map [remap completion-at-point]
-    'irony-completion-at-point-async)
-  (define-key irony-mode-map [remap complete-symbol]
-    'irony-completion-at-point-async))
-(add-hook 'irony-mode-hook 'my-irony-mode-hook)
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-(eval-after-load 'company
-  '(add-to-list 'company-backends 'company-irony))
-;; (optional) adds CC special commands to `company-begin-commands' in order to
-;; trigger completion at interesting places, such as after scope operator
-;;     std::|
-(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
-;; =============
-;; flycheck-mode
-;; =============
-(add-hook 'c++-mode-hook 'flycheck-mode)
-(add-hook 'c-mode-hook 'flycheck-mode)
-(eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
-;; =============
-;; eldoc-mode
-;; =============
-(add-hook 'irony-mode-hook 'irony-eldoc)
-;; ==========================================
-;; (optional) bind TAB for indent-or-complete
-;; ==========================================
-(defun irony--check-expansion ()
-  (save-excursion
-    (if (looking-at "\\_>") t
-      (backward-char 1)
-      (if (looking-at "\\.") t
-        (backward-char 1)
-        (if (looking-at "->") t nil)))))
-(defun irony--indent-or-complete ()
-  "Indent or Complete"
-  (interactive)
-  (cond ((and (not (use-region-p))
-              (irony--check-expansion))
-         (message "complete")
-         (company-complete-common))
-        (t
-         (message "indent")
-         (call-interactively 'c-indent-line-or-region))))
-(defun irony-mode-keys ()
-  "Modify keymaps used by `irony-mode'."
-  (local-set-key (kbd "TAB") 'irony--indent-or-complete)
-  (local-set-key [tab] 'irony--indent-or-complete))
-(add-hook 'c-mode-common-hook 'irony-mode-keys)
+(req-package company
+  :config
+  (progn
+    (add-hook 'after-init-hook 'global-company-mode)
+    (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
+    (setq company-idle-delay 0)))
 
-(use-package company
-    ;; complete anything
-    :ensure t
-    :bind
-    (("C-x n" . company-select-next)
-     ("C-x p" . company-select-previous))
-    :init
-    ;;(add-hook 'after-init-hook 'global-company-mode)
-    (add-hook 'c-mode-common-hook 'company-mode)
-    (add-hook 'emacs-lisp-mode-hook 'company-mode))
+
+(req-package flycheck
+  :config
+  (progn
+    (global-flycheck-mode)))
+
+(req-package irony
+  :config
+  (progn
+    ;; If irony server was never installed, install it.
+    (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
+
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+
+    ;; Use compilation database first, clang_complete as fallback.
+    (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
+                                                      irony-cdb-clang-complete))
+
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  ))
+
+  ;; I use irony with company to get code completion.
+  (req-package company-irony
+    :require company irony
+    :config
+    (progn
+      (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
+
+  ;; I use irony with flycheck to get real-time syntax checking.
+  (req-package flycheck-irony
+    :require flycheck irony
+    :config
+    (progn
+      (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
+
+  ;; Eldoc shows argument list of the function you are currently writing in the echo area.
+  (req-package irony-eldoc
+    :require eldoc irony
+    :config
+    (progn
+      (add-hook 'irony-mode-hook #'irony-eldoc)))
+
+
+(req-package rtags
+  :config
+  (progn
+    (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
+    (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
+
+    (define-key c-mode-base-map (kbd "C-c g") 'rtags-find-symbol-at-point)
+    (define-key c-mode-base-map (kbd "C-c r") 'rtags-find-references-at-point)
+    (define-key c-mode-base-map (kbd "C-c s") 'rtags-display-summary)
+    (rtags-enable-standard-keybindings)
+
+    (setq rtags-use-helm t)
+
+    ;; Shutdown rdm when leaving emacs.
+    (add-hook 'kill-emacs-hook 'rtags-quit-rdm)
+    ))
+
+
+(use-package projectile :ensure t)
+(req-package projectile
+  :config
+  (progn
+    (projectile-global-mode)
+    ))
+
+(use-package helm :ensure t)
+(req-package helm
+  :config
+  (progn
+    (require 'helm-config)
+
+    ;; Use C-c h instead of default C-x c, it makes more sense.
+    (global-set-key (kbd "C-c h") 'helm-command-prefix)
+    (global-unset-key (kbd "C-x c"))
+
+    (setq
+     ;; move to end or beginning of source when reaching top or bottom of source.
+     helm-move-to-line-cycle-in-source t
+     ;; search for library in `require' and `declare-function' sexp.
+     helm-ff-search-library-in-sexp t
+     ;; scroll 8 lines other window using M-<next>/M-<prior>
+     helm-scroll-amount 8
+     helm-ff-file-name-history-use-recentf t
+     helm-echo-input-in-header-line t)
+
+    (global-set-key (kbd "M-x") 'helm-M-x)
+    (setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
+
+    ;;(global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+    (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+
+    (global-set-key (kbd "C-x b") 'helm-mini)
+    (setq helm-buffers-fuzzy-matching t
+          helm-recentf-fuzzy-match t)
+
+    ;; TOOD: helm-semantic has not syntax coloring! How can I fix that?
+    (setq helm-semantic-fuzzy-match t
+          helm-imenu-fuzzy-match t)
+
+    ;; Lists all occurences of a pattern in buffer.
+    (global-set-key (kbd "C-c h o") 'helm-occur)
+
+    (global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
+
+    ;; open helm buffer inside current window, not occupy whole other window
+    (setq helm-split-window-in-side-p t)
+    (setq helm-autoresize-max-height 50)
+    (setq helm-autoresize-min-height 30)
+    (helm-autoresize-mode 1)
+
+    (helm-mode 1)
+    ))
+
+;; Use Helm in Projectile.
+;(use-package helm-projectile :ensure t)
+;(req-package helm-projectile
+;  :require helm projectile
+;  :config
+;  (progn
+;    (setq projectile-completion-system 'helm)
+;    (helm-projectile-on)
+;    ))
 
 (global-set-key (kbd "C-c c") 'cmake-ide-compile)
-(global-set-key (kbd "C-c r") 'cmake-ide-maybe-run-cmake)
-(global-set-key (kbd "C-c g") 'rtags-find-symbol-at-point)
+(global-set-key (kbd "C-c m") 'cmake-ide-run-cmake)
 
 ;; Linum Mode
 (global-linum-mode 1)
@@ -297,3 +338,24 @@ See URL `https://github.com/tensor5/JSLinter'."
 
 (use-package ace-window :ensure t)
 (global-set-key (kbd "M-o") 'ace-window)
+(req-package-finish)
+
+(general-define-key
+ :prefix "C-c"
+ ;; bind to simple key press
+  "b"   'ivy-switch-buffer  ; change buffer, chose using ivy
+  "/"   'counsel-git-grep   ; find string in git project
+  ;; bind to double key press
+  "fr"  'counsel-recentf
+  "p"   '(:ignore t :which-key "project")
+  "pf"  '(counsel-git :which-key "find file in git dir")
+  )
+
+(general-define-key
+  ;; replace default keybindings
+  "C-s" 'swiper             ; search for string in current buffer
+  "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
+  "C-x C-f" 'counsel-find-file
+  )
+
+
