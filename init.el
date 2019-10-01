@@ -86,8 +86,8 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
     "'"   '(iterm-focus :which-key "iterm")
     "?"   '(iterm-goto-filedir-or-home :which-key "iterm - goto dir")
     "/"   'counsel-ag
-    "TAB" '(switch-to-other-buffer :which-key "prev buffer")
-    "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
+    ;;"TAB" '(switch-to-other-buffer :which-key "prev buffer")
+    ;;"SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
 
     ;; Applications
     "a" '(:ignore t :which-key "Applications")
@@ -107,7 +107,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (cmake-mode helm-projectile helm-rtags helm projectile flycheck-rtags company-rtags rtags cmake-ide ace-window exec-path-from-shell sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
+    (company-c-headers company-rtags neotree el-get req-package cmake-mode helm-projectile helm-rtags helm projectile flycheck-rtags cmake-ide ace-window exec-path-from-shell sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -157,6 +157,7 @@ See URL `https://github.com/tensor5/JSLinter'."
 (use-package irony-eldoc :ensure t)
 (use-package flycheck-irony :ensure t)
 (use-package company-irony :ensure t)
+(use-package company-c-headers :ensure t)
 
 (use-package req-package :ensure t)
 
@@ -187,7 +188,23 @@ See URL `https://github.com/tensor5/JSLinter'."
                                                       irony-cdb-clang-complete))
 
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-  ))
+    ))
+
+;; replace the `completion-at-point' and `complete-symbol' bindings in
+;; irony-mode's buffers by irony-mode's function
+(defun my-irony-mode-hook ()
+  (define-key irony-mode-map [remap completion-at-point]
+    'irony-completion-at-point-async)
+  (define-key irony-mode-map [remap complete-symbol]
+    'irony-completion-at-point-async))
+(add-hook 'irony-mode-hook 'my-irony-mode-hook)
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+(eval-after-load 'company
+  '(add-to-list 'company-backends 'company-irony))
+;; (optional) adds CC special commands to `company-begin-commands' in order to
+;; trigger completion at interesting places, such as after scope operator
+;;     std::|
+(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
 
   ;; I use irony with company to get code completion.
   (req-package company-irony
@@ -195,6 +212,9 @@ See URL `https://github.com/tensor5/JSLinter'."
     :config
     (progn
       (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
+
+(add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8/")
+(add-to-list 'company-backends 'company-c-headers)
 
   ;; I use irony with flycheck to get real-time syntax checking.
   (req-package flycheck-irony
@@ -220,6 +240,8 @@ See URL `https://github.com/tensor5/JSLinter'."
     (define-key c-mode-base-map (kbd "C-c g") 'rtags-find-symbol-at-point)
     (define-key c-mode-base-map (kbd "C-c r") 'rtags-find-references-at-point)
     (define-key c-mode-base-map (kbd "C-c s") 'rtags-display-summary)
+    ;;(define-key c-mode-base-map (kbd "TAB") 'irony-mode-map)
+    (define-key c-mode-base-map (kbd "<backtab>") 'company-c-headers)
     (rtags-enable-standard-keybindings)
 
     (setq rtags-use-helm t)
@@ -358,4 +380,4 @@ See URL `https://github.com/tensor5/JSLinter'."
   "C-x C-f" 'counsel-find-file
   )
 
-
+(use-package neotree :ensure t)
