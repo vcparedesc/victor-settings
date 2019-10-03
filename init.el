@@ -107,7 +107,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-c-headers company-rtags neotree el-get req-package cmake-mode helm-projectile helm-rtags helm projectile flycheck-rtags cmake-ide ace-window exec-path-from-shell sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
+    (magit company-c-headers company-rtags neotree el-get req-package cmake-mode helm-projectile helm-rtags helm projectile flycheck-rtags cmake-ide ace-window exec-path-from-shell sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -381,3 +381,8 @@ See URL `https://github.com/tensor5/JSLinter'."
   )
 
 (use-package neotree :ensure t)
+(setq cmake-ide-build-dir "build")
+(setq irony-cdb-search-directory-list "build")
+
+(require 'rtags) ;; optional, must have rtags installed
+(cmake-ide-setup)
