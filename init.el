@@ -1,4 +1,4 @@
-(set-face-attribute 'default nil :height 150)
+(set-face-attribute 'default nil :height 140)
 
 (setq delete-old-versions -1 )          ; delete excess backup versions silently
 (setq version-control t )               ; use version control
@@ -107,7 +107,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (magit company-c-headers company-rtags neotree el-get req-package cmake-mode helm-projectile helm-rtags helm projectile flycheck-rtags cmake-ide ace-window exec-path-from-shell sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
+    (flycheck-clang-analyzer auto-complete-clang jedi ac-clang magit company-c-headers company-rtags neotree el-get req-package cmake-mode helm-projectile helm-rtags helm projectile flycheck-rtags cmake-ide ace-window exec-path-from-shell sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -124,6 +124,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 
 (use-package json :ensure t)
 (use-package flycheck :ensure t)
+(use-package cmake-ide :ensure t)
 
 (defun my-parse-jslinter-warning (warning)
   (flycheck-error-new
@@ -231,6 +232,7 @@ See URL `https://github.com/tensor5/JSLinter'."
       (add-hook 'irony-mode-hook #'irony-eldoc)))
 
 
+(use-package rtags :ensure t)
 (req-package rtags
   :config
   (progn
