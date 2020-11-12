@@ -26,9 +26,9 @@ sudo apt install fonts-powerline -y
 sudo apt install g++-6 -y
 sudo apt install tmux -y
 sudo apt install wine1.6 -y
-sudo apt install texlive-full
-sudo apt install python3-pip
-sudo apt install python-pip
+sudo apt install texlive-full -y
+sudo apt install python3-pip -y
+sudo apt install python-pip -y
 
 # To provide functionality for elpy:
 pip install jedi
@@ -39,3 +39,4 @@ pip install black
 
 
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+git clone https://github.com/jorgenschaefer/pyvenv.git

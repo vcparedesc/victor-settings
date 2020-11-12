@@ -1,4 +1,4 @@
-(set-face-attribute 'default nil :height 140)
+(set-face-attribute 'default nil :height 130)
 
 (setq delete-old-versions -1 )          ; delete excess backup versions silently
 (setq version-control t )               ; use version control
@@ -59,10 +59,17 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 
 (require 'use-package) ; guess what this one does too ?
 
+(use-package modern-cpp-font-lock :ensure t)
+(set-frame-font "DejaVu Sans Mono-14" nil t)
+
 (use-package general :ensure t
   :config
   (general-define-key "C-'" 'avy-goto-word-1)
   )
+
+(use-package sublime-themes :ensure t)
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(load-theme 'granger t)
 
 (use-package dracula-theme :ensure t)
 (load-theme 'dracula t)
@@ -99,6 +106,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 ;; (require 'ein-loaddefs)
 ;; (require 'ein-notebook)
 ;; (require 'ein-subpackages)
+(setq ein:output-area-inlined-images t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -107,7 +115,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (flycheck-clang-analyzer auto-complete-clang jedi ac-clang magit company-c-headers company-rtags neotree el-get req-package cmake-mode helm-projectile helm-rtags helm projectile flycheck-rtags cmake-ide ace-window exec-path-from-shell sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
+    (multishell anaconda-mode pyenv-mode sublime-themes fira-code-mode modern-cpp-font-lock markdown-mode rtags flycheck-clang-analyzer auto-complete-clang jedi ac-clang magit company-c-headers company-rtags neotree el-get req-package cmake-mode helm-projectile helm-rtags helm projectile flycheck-rtags cmake-ide ace-window exec-path-from-shell sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -116,11 +124,30 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
  )
 
 ;; Python support
+;;(setq python-python-command "/usr/bin/python3.6")
+;;(setq python-shell-interpreter "/usr/bin/python3.6")
+;;(setq shell-file-name "~/.emacs.d/bin/eshell")
+(setenv "ESHELL" (expand-file-name "~/.emacs.d/bin/eshell"))
+(set-face-attribute 'comint-highlight-prompt nil
+                    :inherit nil)
+
+
+(use-package jedi :ensure t)
 (use-package yasnippet :ensure t)
 (yas-global-mode 1)
 (use-package sphinx-doc :ensure t)
 (use-package python-docstring :ensure t)
 (use-package cmake-mode :ensure t)
+(add-to-list 'load-path (expand-file-name "/home/victor/pyvenv/pyvenv.el/"))
+;;(setenv "WORKON_HOME" (concat (getenv "CONDA_PREFIX") "/envs"))
+(setenv "WORKON_HOME" "/home/victor/anaconda3/envs")
+(require 'pyvenv)
+(pyvenv-mode 1)
+
+(use-package anaconda-mode :ensure t)
+(add-hook 'python-mode-hook 'anaconda-mode)
+(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+
 
 (use-package json :ensure t)
 (use-package flycheck :ensure t)
@@ -159,6 +186,7 @@ See URL `https://github.com/tensor5/JSLinter'."
 (use-package flycheck-irony :ensure t)
 (use-package company-irony :ensure t)
 (use-package company-c-headers :ensure t)
+(use-package auto-complete-clang :ensure t)
 
 (use-package req-package :ensure t)
 
@@ -183,6 +211,7 @@ See URL `https://github.com/tensor5/JSLinter'."
 
     (add-hook 'c++-mode-hook 'irony-mode)
     (add-hook 'c-mode-hook 'irony-mode)
+    (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
 
     ;; Use compilation database first, clang_complete as fallback.
     (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
@@ -242,6 +271,10 @@ See URL `https://github.com/tensor5/JSLinter'."
     (define-key c-mode-base-map (kbd "C-c g") 'rtags-find-symbol-at-point)
     (define-key c-mode-base-map (kbd "C-c r") 'rtags-find-references-at-point)
     (define-key c-mode-base-map (kbd "C-c s") 'rtags-display-summary)
+    (define-key c-mode-base-map (kbd "C-c u") 'pop-global-mark)
+    (define-key c-mode-base-map (kbd "C-c o") 'helm-occur)
+    (define-key c-mode-base-map (kbd "C-c i") 'helm-semantic-or-imenu)
+    
     ;;(define-key c-mode-base-map (kbd "TAB") 'irony-mode-map)
     (define-key c-mode-base-map (kbd "<backtab>") 'company-c-headers)
     (rtags-enable-standard-keybindings)
@@ -342,6 +375,20 @@ See URL `https://github.com/tensor5/JSLinter'."
 (use-package py-autopep8 :ensure t)
 
 (elpy-enable)
+(setq elpy-rpc-backend "jedi")
+
+(defun elpy-goto-definition-or-rgrep ()
+  "Go to the definition of the symbol at point, if found. Otherwise, run `elpy-rgrep-symbol'."
+    (interactive)
+    (ring-insert find-tag-marker-ring (point-marker))
+    (condition-case nil (elpy-goto-definition)
+        (error (elpy-rgrep-symbol
+                (concat "\\(def\\|class\\)\s" (thing-at-point 'symbol) "(")))))
+(define-key elpy-mode-map (kbd "M-.") 'elpy-goto-definition-or-rgrep)
+(define-key elpy-mode-map (kbd "C-c g") 'elpy-goto-definition)
+(define-key elpy-mode-map (kbd "C-c o") 'elpy-occur-definitions)
+(define-key elpy-mode-map (kbd "C-c u") 'pop-tag-mark)
+
 
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
