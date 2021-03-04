@@ -138,7 +138,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 (use-package sphinx-doc :ensure t)
 (use-package python-docstring :ensure t)
 (use-package cmake-mode :ensure t)
-(add-to-list 'load-path (expand-file-name "/home/victor/pyvenv/pyvenv.el/"))
+(add-to-list 'load-path (expand-file-name "/home/victor/pyvenv/"))
 ;;(setenv "WORKON_HOME" (concat (getenv "CONDA_PREFIX") "/envs"))
 (setenv "WORKON_HOME" "/home/victor/anaconda3/envs")
 (require 'pyvenv)

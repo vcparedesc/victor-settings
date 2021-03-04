@@ -14,7 +14,7 @@ sudo apt install git -y
 sudo apt install meld -y
 sudo apt install konsole -y
 sudo apt install minicom -y
-sudo apt install emacs25 -y
+sudo apt install emacs -y
 sudo apt install shutter -y
 sudo apt install inkscape -y
 sudo apt install kicad -y
@@ -27,8 +27,6 @@ sudo apt install g++-6 -y
 sudo apt install tmux -y
 sudo apt install wine1.6 -y
 sudo apt install texlive-full -y
-sudo apt install python3-pip -y
-sudo apt install python-pip -y
 
 # To provide functionality for elpy:
 pip install jedi
