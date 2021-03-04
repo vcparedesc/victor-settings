@@ -35,6 +35,16 @@ pip install autopep8
 pip install yapf
 pip install black
 
+sudo add-apt-repository ppa:apandada1/xournalpp-stable
+sudo apt update
+sudo apt install xournalpp
+
 
 sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 git clone https://github.com/jorgenschaefer/pyvenv.git
+cd ~/
+
+mkdir -p Repositories
+cd Repositories
+
+
