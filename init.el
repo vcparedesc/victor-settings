@@ -67,9 +67,9 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
   (general-define-key "C-'" 'avy-goto-word-1)
   )
 
-(use-package sublime-themes :ensure t)
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'granger t)
+;(use-package sublime-themes :ensure t)
+;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+;(load-theme 'granger t)
 
 (use-package dracula-theme :ensure t)
 (load-theme 'dracula t)
