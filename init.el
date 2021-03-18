@@ -131,8 +131,10 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 (set-face-attribute 'comint-highlight-prompt nil
                     :inherit nil)
 
-
 (use-package jedi :ensure t)
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+
 (use-package yasnippet :ensure t)
 (yas-global-mode 1)
 (use-package sphinx-doc :ensure t)
