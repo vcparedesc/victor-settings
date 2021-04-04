@@ -248,6 +248,8 @@ See URL `https://github.com/tensor5/JSLinter'."
 (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8/")
 (add-to-list 'company-backends 'company-c-headers)
 
+(global-set-key (kbd "C-;") 'company-irony)
+
   ;; I use irony with flycheck to get real-time syntax checking.
   (req-package flycheck-irony
     :require flycheck irony
