@@ -290,6 +290,8 @@ See URL `https://github.com/tensor5/JSLinter'."
     ))
 
 
+(windmove-default-keybindings)
+(use-package multi-term :ensure t)
 (use-package projectile :ensure t)
 (req-package projectile
   :config
