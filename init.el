@@ -1,4 +1,4 @@
-(set-face-attribute 'default nil :height 115)
+;;(set-face-attribute 'default nil :height 110)
 
 (setq delete-old-versions -1 )          ; delete excess backup versions silently
 (setq version-control t )               ; use version control
@@ -59,8 +59,8 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 
 (require 'use-package) ; guess what this one does too ?
 
-(use-package modern-cpp-font-lock :ensure t)
-(set-frame-font "DejaVu Sans Mono-14" nil t)
+;;(use-package modern-cpp-font-lock :ensure t)
+;;(set-frame-font "DejaVu Sans Mono-11" nil t)
 
 (use-package general :ensure t
   :config
@@ -69,10 +69,34 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 
 ;(use-package sublime-themes :ensure t)
 ;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-;(load-theme 'granger t)
+                                        ;(load-theme 'granger t)
 
-(use-package dracula-theme :ensure t)
-(load-theme 'dracula t)
+;;(use-package dracula-theme :ensure t)
+;; Don't change the font size for some headings and titles (default t)
+;;(setq dracula-enlarge-headings nil)
+
+;; Adjust font size of titles level 1 (default 1.3)
+;;(setq dracula-height-title-1 1.25)
+
+;; Adjust font size of titles level 2 (default 1.1)
+;;(setq dracula-height-title-1 1.15)
+
+;; Adjust font size of titles level 3 (default 1.0)
+;;(setq dracula-height-title-1 1.05)
+
+;; Adjust font size of document titles (default 1.44)
+;;(setq dracula-height-doc-title 1.4)
+
+;; Use less pink and bold on the mode-line and minibuffer (default nil)
+;;(setq dracula-alternate-mode-line-and-minibuffer t)
+
+;;(load-theme 'dracula t)
+
+(use-package doom-themes
+  :ensure t
+  :config
+  (load-theme 'doom-one t))
+
 (use-package nyan-mode :ensure t)
 
 (use-package avy :ensure t
@@ -81,6 +105,8 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 (use-package counsel :ensure t)
 (use-package ivy :ensure t)
 (use-package swiper :ensure t)
+
+(use-package which-key :ensure t)
 
 (use-package general :ensure t
   :config
@@ -290,15 +316,14 @@ See URL `https://github.com/tensor5/JSLinter'."
     (add-hook 'kill-emacs-hook 'rtags-quit-rdm)
     ))
 
-
-(windmove-default-keybindings)
-(use-package multi-term :ensure t)
 (use-package projectile :ensure t)
 (req-package projectile
   :config
   (progn
     (projectile-global-mode)
-    ))
+    (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
+    )
+  )
 
 (use-package helm :ensure t)
 (req-package helm
@@ -350,14 +375,14 @@ See URL `https://github.com/tensor5/JSLinter'."
     ))
 
 ;; Use Helm in Projectile.
-;(use-package helm-projectile :ensure t)
-;(req-package helm-projectile
-;  :require helm projectile
-;  :config
-;  (progn
-;    (setq projectile-completion-system 'helm)
-;    (helm-projectile-on)
-;    ))
+(use-package helm-projectile :ensure t)
+(req-package helm-projectile
+  :require helm projectile
+  :config
+  (progn
+    (setq projectile-completion-system 'helm)
+    (helm-projectile-on)
+    ))
 
 (global-set-key (kbd "C-c c") 'cmake-ide-compile)
 (global-set-key (kbd "C-c m") 'cmake-ide-run-cmake)
@@ -414,6 +439,15 @@ See URL `https://github.com/tensor5/JSLinter'."
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
+(windmove-default-keybindings)
+(use-package multi-term
+  :ensure t
+  :config
+  (progn
+    (local-set-key (kbd "C-/") 'term-send-backspace)
+    )
+  )
+
 (use-package ace-window :ensure t)
 (global-set-key (kbd "M-o") 'ace-window)
 (req-package-finish)
@@ -439,6 +473,8 @@ See URL `https://github.com/tensor5/JSLinter'."
   )
 
 (use-package neotree :ensure t)
+(global-set-key (kbd "C-x t") 'neotree-toggle)
+
 (setq cmake-ide-build-dir "build")
 (setq irony-cdb-search-directory-list "build")
 
