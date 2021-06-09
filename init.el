@@ -1,4 +1,4 @@
-(set-face-attribute 'default nil :height 130)
+(set-face-attribute 'default nil :height 115)
 
 (setq delete-old-versions -1 )          ; delete excess backup versions silently
 (setq version-control t )               ; use version control
@@ -224,11 +224,12 @@ See URL `https://github.com/tensor5/JSLinter'."
 
 ;; replace the `completion-at-point' and `complete-symbol' bindings in
 ;; irony-mode's buffers by irony-mode's function
-(defun my-irony-mode-hook ()
-  (define-key irony-mode-map [remap completion-at-point]
-    'irony-completion-at-point-async)
-  (define-key irony-mode-map [remap complete-symbol]
-    'irony-completion-at-point-async))
+;;(defun my-irony-mode-hook ()
+;;  (define-key irony-mode-map [remap completion-at-point]
+;;    'irony-completion-at-point-async)
+;;  (define-key irony-mode-map [remap complete-symbol]
+;;    'irony-completion-at-point-async))
+
 (add-hook 'irony-mode-hook 'my-irony-mode-hook)
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 (eval-after-load 'company
@@ -248,7 +249,7 @@ See URL `https://github.com/tensor5/JSLinter'."
 (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8/")
 (add-to-list 'company-backends 'company-c-headers)
 
-(global-set-key (kbd "C-;") 'company-irony)
+(global-set-key (kbd "C-;") 'complete-symbol)
 
   ;; I use irony with flycheck to get real-time syntax checking.
   (req-package flycheck-irony
@@ -417,6 +418,8 @@ See URL `https://github.com/tensor5/JSLinter'."
 (global-set-key (kbd "M-o") 'ace-window)
 (req-package-finish)
 
+(use-package magit :ensure t)
+
 (general-define-key
  :prefix "C-c"
  ;; bind to simple key press
@@ -441,3 +444,28 @@ See URL `https://github.com/tensor5/JSLinter'."
 
 (require 'rtags) ;; optional, must have rtags installed
 (cmake-ide-setup)
+
+(add-to-list 'load-path "/opt/ros/noetic/share/emacs/site-lisp")
+;; or whatever your install space is + "/share/emacs/site-lisp"
+(require 'rosemacs-config)
+
+
+(setq default-catkin-dir ( concat (getenv "HOME") "/catkin_ws"))
+(defun ros-catkin-make (dir)
+  "Run catkin_make command in DIR."
+  (interactive (list (read-directory-name "Directory: ")))
+  (let* ((default-directory default-catkin-dir)
+         (compilation-buffer-name-function (lambda (major-mode-name) "*catkin_make*")))
+    (compile "catkin_make -j8"))
+  )
+
+(defun ros-catkin-make-json (dir)
+  "Run catkin_make command in DIR."
+  (interactive (list (read-directory-name "Directory: ")))
+  (let* ((default-directory default-catkin-dir)
+         (compilation-buffer-name-function (lambda (major-mode-name) "*catkin_make*")))
+    (compile "catkin_make -j8 -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ."))
+  )
+
+(global-set-key (kbd "C-x C-r q") 'ros-catkin-make)
+(global-set-key (kbd "C-x C-r C-j") 'ros-catkin-make-json)
