@@ -391,6 +391,8 @@ See URL `https://github.com/tensor5/JSLinter'."
 (global-linum-mode 1)
 (global-hl-line-mode +1)
 
+(winner-mode 1)
+
 (setq nyan-animate-nyancat t)
 (nyan-mode t)
 (nyan-start-animation)
@@ -475,8 +477,29 @@ See URL `https://github.com/tensor5/JSLinter'."
 (use-package neotree :ensure t)
 (global-set-key (kbd "C-x t") 'neotree-toggle)
 
-(setq cmake-ide-build-dir "build")
-(setq irony-cdb-search-directory-list "build")
+;;(setq cmake-ide-build-dir "build")
+;;(setq irony-cdb-search-directory-list "build")
+(use-package cmake-ide
+  :after projectile
+  :hook (c++-mode . my/cmake-ide-find-project)
+  :preface
+  (defun my/cmake-ide-find-project ()
+    "Finds the directory of the project for cmake-ide."
+    (with-eval-after-load 'projectile
+      (setq cmake-ide-project-dir (projectile-project-root))
+      (setq cmake-ide-build-dir (concat cmake-ide-project-dir "build")))
+    (setq cmake-ide-compile-command
+            (concat "cd " cmake-ide-build-dir " && cmake .. && make -j8"))
+    (cmake-ide-load-db))
+
+  (defun my/switch-to-compilation-window ()
+    "Switches to the *compilation* buffer after compilation."
+    (other-window 1))
+  :bind ([remap comment-region] . cmake-ide-compile)
+  :init (cmake-ide-setup)
+  :config (advice-add 'cmake-ide-compile :after #'my/switch-to-compilation-window))
+  
+;;(setq irony-cdb-search-directory-list (concat cmake-ide-project-dir "build"))
 
 (require 'rtags) ;; optional, must have rtags installed
 (cmake-ide-setup)
@@ -505,3 +528,4 @@ See URL `https://github.com/tensor5/JSLinter'."
 
 (global-set-key (kbd "C-x C-r q") 'ros-catkin-make)
 (global-set-key (kbd "C-x C-r C-j") 'ros-catkin-make-json)
+(global-set-key (kbd "s-c") 'uncomment-region)
