@@ -384,9 +384,6 @@ See URL `https://github.com/tensor5/JSLinter'."
     (helm-projectile-on)
     ))
 
-(global-set-key (kbd "C-c c") 'cmake-ide-compile)
-(global-set-key (kbd "C-c m") 'cmake-ide-run-cmake)
-
 ;; Linum Mode
 (global-linum-mode 1)
 (global-hl-line-mode +1)
@@ -420,7 +417,8 @@ See URL `https://github.com/tensor5/JSLinter'."
                 (concat "\\(def\\|class\\)\s" (thing-at-point 'symbol) "(")))))
 (define-key elpy-mode-map (kbd "M-.") 'elpy-goto-definition-or-rgrep)
 (define-key elpy-mode-map (kbd "C-c g") 'elpy-goto-definition)
-(define-key elpy-mode-map (kbd "C-c o") 'elpy-occur-definitions)
+(define-key elpy-mode-map (kbd "C-c
+ o") 'elpy-occur-definitions)
 (define-key elpy-mode-map (kbd "C-c u") 'pop-tag-mark)
 
 
@@ -477,6 +475,18 @@ See URL `https://github.com/tensor5/JSLinter'."
 (use-package neotree :ensure t)
 (global-set-key (kbd "C-x t") 'neotree-toggle)
 
+(use-package sr-speedbar :ensure t)
+
+(setq ido-enable-flex-matching t)
+(ido-mode 1)
+
+;(use-package lsp-mode
+;  :ensure t
+;  :hook (prog-mode . lsp))
+
+;(use-package lsp-ui :ensure t)
+;(use-package company-lsp :ensure t)
+
 ;;(setq cmake-ide-build-dir "build")
 ;;(setq irony-cdb-search-directory-list "build")
 (use-package cmake-ide
@@ -495,14 +505,19 @@ See URL `https://github.com/tensor5/JSLinter'."
   (defun my/switch-to-compilation-window ()
     "Switches to the *compilation* buffer after compilation."
     (other-window 1))
-  :bind ([remap comment-region] . cmake-ide-compile)
+  ;;:bind ([remap comment-region] . cmake-ide-compile)
   :init (cmake-ide-setup)
   :config (advice-add 'cmake-ide-compile :after #'my/switch-to-compilation-window))
+
+(global-set-key (kbd "C-c c") 'cmake-ide-compile)
+(global-set-key (kbd "C-c m") 'cmake-ide-run-cmake)
   
 ;;(setq irony-cdb-search-directory-list (concat cmake-ide-project-dir "build"))
 
 (require 'rtags) ;; optional, must have rtags installed
 (cmake-ide-setup)
+
+(custom-set-variables '(gdb-many-windows t))
 
 (add-to-list 'load-path "/opt/ros/noetic/share/emacs/site-lisp")
 ;; or whatever your install space is + "/share/emacs/site-lisp"
@@ -528,4 +543,7 @@ See URL `https://github.com/tensor5/JSLinter'."
 
 (global-set-key (kbd "C-x C-r q") 'ros-catkin-make)
 (global-set-key (kbd "C-x C-r C-j") 'ros-catkin-make-json)
-(global-set-key (kbd "s-c") 'uncomment-region)
+(global-set-key (kbd "s-u") 'uncomment-region)
+
+(provide 'init)
+;;; init.el ends here
