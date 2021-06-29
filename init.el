@@ -106,7 +106,10 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 (use-package ivy :ensure t)
 (use-package swiper :ensure t)
 
-(use-package which-key :ensure t)
+(use-package which-key
+  :ensure t
+  :config
+    (which-key-mode))
 
 (use-package general :ensure t
   :config
@@ -212,7 +215,7 @@ See URL `https://github.com/tensor5/JSLinter'."
 (use-package irony :ensure t)
 (use-package irony-eldoc :ensure t)
 (use-package flycheck-irony :ensure t)
-(use-package company-irony :ensure t)
+;(use-package company-irony :ensure t)
 (use-package company-c-headers :ensure t)
 (use-package auto-complete-clang :ensure t)
 
@@ -231,22 +234,25 @@ See URL `https://github.com/tensor5/JSLinter'."
   (progn
     (global-flycheck-mode)))
 
-(req-package irony
-  :config
-  (progn
-    ;; If irony server was never installed, install it.
-    (unless (irony--find-server-executable) (call-interactively #'irony-install-server))
+(add-hook 'c++-mode-hook 'lsp)
+(add-hook 'c++-mode-hook 'company-mode)
 
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-    (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
+;(req-package irony
+;  :config
+;  (progn
+;    ;; If irony server was never installed, install it.
+;    (unless (irony--find-server-executable) (call-interactively #'irony-install-server));;
+
+;    (add-hook 'c++-mode-hook 'irony-mode)
+;    (add-hook 'c-mode-hook 'irony-mode)
+;    (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
 
     ;; Use compilation database first, clang_complete as fallback.
-    (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
-                                                      irony-cdb-clang-complete))
+;    (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
+;                                                      irony-cdb-clang-complete))
 
-    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-    ))
+;    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+;    ))
 
 ;; replace the `completion-at-point' and `complete-symbol' bindings in
 ;; irony-mode's buffers by irony-mode's function
@@ -256,65 +262,65 @@ See URL `https://github.com/tensor5/JSLinter'."
 ;;  (define-key irony-mode-map [remap complete-symbol]
 ;;    'irony-completion-at-point-async))
 
-(add-hook 'irony-mode-hook 'my-irony-mode-hook)
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-(eval-after-load 'company
-  '(add-to-list 'company-backends 'company-irony))
+;(add-hook 'irony-mode-hook 'my-irony-mode-hook)
+;(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+;(eval-after-load 'company
+;  '(add-to-list 'company-backends 'company-irony))
 ;; (optional) adds CC special commands to `company-begin-commands' in order to
 ;; trigger completion at interesting places, such as after scope operator
 ;;     std::|
-(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+;(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
 
   ;; I use irony with company to get code completion.
-  (req-package company-irony
-    :require company irony
-    :config
-    (progn
-      (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
+;  (req-package company-irony
+;    :require company irony
+;    :config
+;    (progn
+;      (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
 
-(add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8/")
+(add-to-list 'company-c-headers-path-system "/usr/include/c++/7.5.0/")
 (add-to-list 'company-backends 'company-c-headers)
 
-(global-set-key (kbd "C-;") 'complete-symbol)
+;(global-set-key (kbd "C-;") 'complete-symbol)
 
   ;; I use irony with flycheck to get real-time syntax checking.
-  (req-package flycheck-irony
-    :require flycheck irony
-    :config
-    (progn
-      (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
+;  (req-package flycheck-irony
+;    :require flycheck irony
+;    :config
+;    (progn
+;      (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
 
   ;; Eldoc shows argument list of the function you are currently writing in the echo area.
-  (req-package irony-eldoc
-    :require eldoc irony
-    :config
-    (progn
-      (add-hook 'irony-mode-hook #'irony-eldoc)))
+;  (req-package irony-eldoc
+;    :require eldoc irony
+;    :config
+;    (progn
+;      (add-hook 'irony-mode-hook #'irony-eldoc)))
 
 
-(use-package rtags :ensure t)
-(req-package rtags
-  :config
-  (progn
-    (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
-    (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
+;; (use-package rtags :ensure t)
+;; (req-package rtags
+;;   :config
+;;   (progn
+;;     (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
+;;     (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
 
-    (define-key c-mode-base-map (kbd "C-c g") 'rtags-find-symbol-at-point)
-    (define-key c-mode-base-map (kbd "C-c r") 'rtags-find-references-at-point)
-    (define-key c-mode-base-map (kbd "C-c s") 'rtags-display-summary)
-    (define-key c-mode-base-map (kbd "C-c u") 'pop-global-mark)
-    (define-key c-mode-base-map (kbd "C-c o") 'helm-occur)
-    (define-key c-mode-base-map (kbd "C-c i") 'helm-semantic-or-imenu)
+;;     (define-key c-mode-base-map (kbd "C-c g") 'rtags-find-symbol-at-point)
+;;     (define-key c-mode-base-map (kbd "C-c r") 'rtags-find-references-at-point)
+;;     (define-key c-mode-base-map (kbd "C-c s") 'rtags-display-summary)
+;;     (define-key c-mode-base-map (kbd "C-c u") 'pop-global-mark)
+;;     (define-key c-mode-base-map (kbd "C-c o") 'helm-occur)
+;;     (define-key c-mode-base-map (kbd "C-c i") 'helm-semantic-or-imenu)
     
-    ;;(define-key c-mode-base-map (kbd "TAB") 'irony-mode-map)
-    (define-key c-mode-base-map (kbd "<backtab>") 'company-c-headers)
-    (rtags-enable-standard-keybindings)
+;;     ;;(define-key c-mode-base-map (kbd "TAB") 'irony-mode-map)
+;;     (define-key c-mode-base-map (kbd "<backtab>") 'company-c-headers)
+;;     (rtags-enable-standard-keybindings)
 
-    (setq rtags-use-helm t)
+;;     (setq rtags-use-helm t)
 
-    ;; Shutdown rdm when leaving emacs.
-    (add-hook 'kill-emacs-hook 'rtags-quit-rdm)
-    ))
+;;     ;; Shutdown rdm when leaving emacs.
+;;     (add-hook 'kill-emacs-hook 'rtags-quit-rdm)
+;;     ))
 
 (use-package projectile :ensure t)
 (req-package projectile
@@ -472,23 +478,168 @@ See URL `https://github.com/tensor5/JSLinter'."
   "C-x C-f" 'counsel-find-file
   )
 
-(use-package neotree :ensure t)
-(global-set-key (kbd "C-x t") 'neotree-toggle)
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (progn
+    (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+          treemacs-deferred-git-apply-delay      0.5
+          treemacs-directory-name-transformer    #'identity
+          treemacs-display-in-side-window        t
+          treemacs-eldoc-display                 t
+          treemacs-file-event-delay              5000
+          treemacs-file-extension-regex          treemacs-last-period-regex-value
+          treemacs-file-follow-delay             0.2
+          treemacs-file-name-transformer         #'identity
+          treemacs-follow-after-init             t
+          treemacs-expand-after-init             t
+          treemacs-git-command-pipe              ""
+          treemacs-goto-tag-strategy             'refetch-index
+          treemacs-indentation                   2
+          treemacs-indentation-string            " "
+          treemacs-is-never-other-window         nil
+          treemacs-max-git-entries               5000
+          treemacs-missing-project-action        'ask
+          treemacs-move-forward-on-expand        nil
+          treemacs-no-png-images                 nil
+          treemacs-no-delete-other-windows       t
+          treemacs-project-follow-cleanup        nil
+          treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-position                      'left
+          treemacs-read-string-input             'from-child-frame
+          treemacs-recenter-distance             0.1
+          treemacs-recenter-after-file-follow    nil
+          treemacs-recenter-after-tag-follow     nil
+          treemacs-recenter-after-project-jump   'always
+          treemacs-recenter-after-project-expand 'on-distance
+          treemacs-litter-directories            '("/node_modules" "/.venv" "/.cask")
+          treemacs-show-cursor                   nil
+          treemacs-show-hidden-files             t
+          treemacs-silent-filewatch              nil
+          treemacs-silent-refresh                nil
+          treemacs-sorting                       'alphabetic-asc
+          treemacs-space-between-root-nodes      t
+          treemacs-tag-follow-cleanup            t
+          treemacs-tag-follow-delay              1.5
+          treemacs-user-mode-line-format         nil
+          treemacs-user-header-line-format       nil
+          treemacs-width                         35
+          treemacs-workspace-switch-cleanup      nil)
+
+    ;; The default width and height of the icons is 22 pixels. If you are
+    ;; using a Hi-DPI display, uncomment this to double the icon size.
+    ;;(treemacs-resize-icons 44)
+
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode 'always)
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple))))
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+(global-set-key (kbd "C-x t") 'treemacs)
+
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
+
+(use-package treemacs-icons-dired
+  :after (treemacs dired)
+  :ensure t
+  :config (treemacs-icons-dired-mode))
+
+(use-package treemacs-magit
+  :after (treemacs magit)
+  :ensure t)
+
+(use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
+  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
+  :ensure t
+  :config (treemacs-set-scope-type 'Perspectives))
 
 (use-package sr-speedbar :ensure t)
 
 (setq ido-enable-flex-matching t)
 (ido-mode 1)
 
-;(use-package lsp-mode
-;  :ensure t
-;  :hook (prog-mode . lsp))
+(use-package lsp-mode
+  
+  :ensure t
+  :hook (
+         (c++-mode . lsp)
+         (c-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration) )
+  :config
+  (progn
+    (require 'cc-mode)
+           (define-key c-mode-base-map (kbd "C-c g") 'lsp-find-definition)
+           (define-key c-mode-base-map (kbd "C-c r") 'lsp-find-references)
+         )
+  :commands lsp)
+                                        ;(lsp-clients-register-clangd)
 
-;(use-package lsp-ui :ensure t)
-;(use-package company-lsp :ensure t)
+
+;; optionally
+(use-package lsp-ui :commands lsp-ui-mode :ensure t)
+;; if you are helm user
+(use-package helm-lsp :commands helm-lsp-workspace-symbol :ensure t)
+;; if you are ivy user
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol :ensure t)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list :ensure t)
+
+;; optionally if you want to use debugger
+(use-package dap-mode :ensure t)
+;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+
+(helm-mode)
+(use-package helm-xref :ensure t)
+(define-key global-map [remap find-file] #'helm-find-files)
+(define-key global-map [remap execute-extended-command] #'helm-M-x)
+(define-key global-map [remap switch-to-buffer] #'helm-mini)
+
+(which-key-mode)
+(add-hook 'c-mode-hook 'lsp)
+(add-hook 'c++-mode-hook 'lsp)
+
+(setq lsp-clients-clangd-args '("--compile-commands-dir=build"
+                                          "--pch-storage=memory"
+                                          "--background-index"
+                                          "-j=4"
+                                          ))
+
+
+(setq gc-cons-threshold (* 100 1024 1024)
+      read-process-output-max (* 1024 1024)
+      treemacs-space-between-root-nodes nil
+      company-idle-delay 0.0
+      company-minimum-prefix-length 1
+      lsp-idle-delay 0.1)  ;; clangd is fast
+
+(with-eval-after-load 'lsp-mode
+  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+  (require 'dap-cpptools)
+  (yas-global-mode))
+
 
 ;;(setq cmake-ide-build-dir "build")
 ;;(setq irony-cdb-search-directory-list "build")
+
+
 (use-package cmake-ide
   :after projectile
   :hook (c++-mode . my/cmake-ide-find-project)
@@ -514,7 +665,7 @@ See URL `https://github.com/tensor5/JSLinter'."
   
 ;;(setq irony-cdb-search-directory-list (concat cmake-ide-project-dir "build"))
 
-(require 'rtags) ;; optional, must have rtags installed
+;;(require 'rtags) ;; optional, must have rtags installed
 (cmake-ide-setup)
 
 (custom-set-variables '(gdb-many-windows t))
