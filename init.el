@@ -137,14 +137,7 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 ;; (require 'ein-subpackages)
 (setq ein:output-area-inlined-images t)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (multishell anaconda-mode pyenv-mode sublime-themes fira-code-mode modern-cpp-font-lock markdown-mode rtags flycheck-clang-analyzer auto-complete-clang jedi ac-clang magit company-c-headers company-rtags neotree el-get req-package cmake-mode helm-projectile helm-rtags helm projectile flycheck-rtags cmake-ide ace-window exec-path-from-shell sr-speedbar highlight-parentheses sphinx-doc yasnippet py-autopep8 elpy better-defaults eink-theme company-irony flycheck-irony irony-eldoc irony flycheck python-docstring ein-mumamo which-key use-package latex-pretty-symbols ipython general ein counsel avy))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -212,12 +205,9 @@ See URL `https://github.com/tensor5/JSLinter'."
 
 (use-package cl-lib :ensure t)
 (use-package json :ensure t)
-(use-package irony :ensure t)
-(use-package irony-eldoc :ensure t)
-(use-package flycheck-irony :ensure t)
 ;(use-package company-irony :ensure t)
-(use-package company-c-headers :ensure t)
-(use-package auto-complete-clang :ensure t)
+;;(use-package company-c-headers :ensure t)
+;;(use-package auto-complete-clang :ensure t)
 
 (use-package req-package :ensure t)
 
@@ -278,8 +268,8 @@ See URL `https://github.com/tensor5/JSLinter'."
 ;    (progn
 ;      (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
 
-(add-to-list 'company-c-headers-path-system "/usr/include/c++/7.5.0/")
-(add-to-list 'company-backends 'company-c-headers)
+;; (add-to-list 'company-c-headers-path-system "/usr/include/c++/7.5.0/")
+;;(add-to-list 'company-backends 'company-c-headers)
 
 ;(global-set-key (kbd "C-;") 'complete-symbol)
 
@@ -422,7 +412,7 @@ See URL `https://github.com/tensor5/JSLinter'."
         (error (elpy-rgrep-symbol
                 (concat "\\(def\\|class\\)\s" (thing-at-point 'symbol) "(")))))
 (define-key elpy-mode-map (kbd "M-.") 'elpy-goto-definition-or-rgrep)
-(define-key elpy-mode-map (kbd "C-c g") 'elpy-goto-definition)
+;;(define-key elpy-mode-map (kbd "C-c g") 'elpy-goto-definition)
 (define-key elpy-mode-map (kbd "C-c
  o") 'elpy-occur-definitions)
 (define-key elpy-mode-map (kbd "C-c u") 'pop-tag-mark)
@@ -587,9 +577,9 @@ See URL `https://github.com/tensor5/JSLinter'."
   :config
   (progn
     (require 'cc-mode)
-           (define-key c-mode-base-map (kbd "C-c g") 'lsp-find-definition)
-           (define-key c-mode-base-map (kbd "C-c r") 'lsp-find-references)
-         )
+    (define-key c-mode-base-map (kbd "C-c g") 'lsp-find-definition)
+    (define-key c-mode-base-map (kbd "C-c r") 'lsp-find-references)
+    )
   :commands lsp)
                                         ;(lsp-clients-register-clangd)
 
@@ -599,14 +589,14 @@ See URL `https://github.com/tensor5/JSLinter'."
 ;; if you are helm user
 (use-package helm-lsp :commands helm-lsp-workspace-symbol :ensure t)
 ;; if you are ivy user
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol :ensure t)
+;(use-package lsp-ivy :commands lsp-ivy-workspace-symbol :ensure t)
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list :ensure t)
 
 ;; optionally if you want to use debugger
 (use-package dap-mode :ensure t)
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
-(helm-mode)
+;;(helm-mode)
 (use-package helm-xref :ensure t)
 (define-key global-map [remap find-file] #'helm-find-files)
 (define-key global-map [remap execute-extended-command] #'helm-M-x)
@@ -616,11 +606,14 @@ See URL `https://github.com/tensor5/JSLinter'."
 (add-hook 'c-mode-hook 'lsp)
 (add-hook 'c++-mode-hook 'lsp)
 
+
 (setq lsp-clients-clangd-args '("--compile-commands-dir=build"
                                           "--pch-storage=memory"
                                           "--background-index"
+                                          "--query-driver"
                                           "-j=4"
                                           ))
+(setq lsp-clangd-binary-path "/usr/bin/clangd")
 
 
 (setq gc-cons-threshold (* 100 1024 1024)
@@ -639,34 +632,47 @@ See URL `https://github.com/tensor5/JSLinter'."
 ;;(setq cmake-ide-build-dir "build")
 ;;(setq irony-cdb-search-directory-list "build")
 
+;; (use-package cmake-ide
+;;   :after projectile
+;;   :hook (c++-mode . my/cmake-ide-find-project)
+;;   :preface
+;;   (defun my/cmake-ide-find-project ()
+;;     "Finds the directory of the project for cmake-ide."
+;;     (with-eval-after-load 'projectile
+;;       (setq cmake-ide-project-dir (projectile-project-root))
+;;       (setq cmake-ide-build-dir (concat cmake-ide-project-dir "build")))
+;;     (setq cmake-ide-compile-command
+;;             (concat "cd " cmake-ide-build-dir " && cmake .. && make -j8"))
+;;     (cmake-ide-load-db))
 
-(use-package cmake-ide
-  :after projectile
-  :hook (c++-mode . my/cmake-ide-find-project)
-  :preface
-  (defun my/cmake-ide-find-project ()
-    "Finds the directory of the project for cmake-ide."
-    (with-eval-after-load 'projectile
-      (setq cmake-ide-project-dir (projectile-project-root))
-      (setq cmake-ide-build-dir (concat cmake-ide-project-dir "build")))
-    (setq cmake-ide-compile-command
-            (concat "cd " cmake-ide-build-dir " && cmake .. && make -j8"))
-    (cmake-ide-load-db))
+;;   (defun my/switch-to-compilation-window ()
+;;     "Switches to the *compilation* buffer after compilation."
+;;     (other-window 1))
+;;   ;;:bind ([remap comment-region] . cmake-ide-compile)
+;;   :init (cmake-ide-setup)
+;;   :config (advice-add 'cmake-ide-compile :after #'my/switch-to-compilation-window))
 
-  (defun my/switch-to-compilation-window ()
-    "Switches to the *compilation* buffer after compilation."
-    (other-window 1))
-  ;;:bind ([remap comment-region] . cmake-ide-compile)
-  :init (cmake-ide-setup)
-  :config (advice-add 'cmake-ide-compile :after #'my/switch-to-compilation-window))
+(defun cmake-run-json()
+  "Run cmake command in DIR."
+  (interactive
+  (with-eval-after-load 'projectile
+    (defvar cmake-json-dir (projectile-project-root))
+    (defvar cmake-json-build-dir (concat cmake-json-dir "build"))
+    (let* ((default-directory cmake-json-build-dir)
+           (compilation-buffer-name-function (lambda (major-mode-name) "*cmake*"))
+           )
+      (compile "cmake -j8 -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .. && make -j8"))
+    ))
+  )
 
-(global-set-key (kbd "C-c c") 'cmake-ide-compile)
-(global-set-key (kbd "C-c m") 'cmake-ide-run-cmake)
+(global-set-key (kbd "C-c c") 'cmake-run-json)
+;;(global-set-key (kbd "C-c m") 'cmake-ide-run-cmake)
+;;(global-set-key (kbd "C-c g") 'lsp-find-definition)
   
 ;;(setq irony-cdb-search-directory-list (concat cmake-ide-project-dir "build"))
 
 ;;(require 'rtags) ;; optional, must have rtags installed
-(cmake-ide-setup)
+;;(cmake-ide-setup)
 
 (custom-set-variables '(gdb-many-windows t))
 
