@@ -680,26 +680,18 @@ See URL `https://github.com/tensor5/JSLinter'."
 ;; or whatever your install space is + "/share/emacs/site-lisp"
 (require 'rosemacs-config)
 
-
 (setq default-catkin-dir ( concat (getenv "HOME") "/catkin_ws"))
-(defun ros-catkin-make (dir)
+(defun ros-catkin-make ()
   "Run catkin_make command in DIR."
-  (interactive (list (read-directory-name "Directory: ")))
+  (interactive
+;;   (list (read-directory-name "Directory: "))
   (let* ((default-directory default-catkin-dir)
          (compilation-buffer-name-function (lambda (major-mode-name) "*catkin_make*")))
-    (compile "catkin_make -j8"))
+    (compile "catkin_make -j8 -DCMAKE_EXPORT_COMPILE_COMMANDS=1"))
   )
-
-(defun ros-catkin-make-json (dir)
-  "Run catkin_make command in DIR."
-  (interactive (list (read-directory-name "Directory: ")))
-  (let* ((default-directory default-catkin-dir)
-         (compilation-buffer-name-function (lambda (major-mode-name) "*catkin_make*")))
-    (compile "catkin_make -j8 -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ."))
   )
 
 (global-set-key (kbd "C-x C-r q") 'ros-catkin-make)
-(global-set-key (kbd "C-x C-r C-j") 'ros-catkin-make-json)
 (global-set-key (kbd "s-u") 'uncomment-region)
 
 (use-package org :ensure t)
