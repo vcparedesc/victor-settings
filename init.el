@@ -175,7 +175,6 @@ smmmmmmmmh:          /dmmmmmmmm+                     .+o+:``./oooo/.``:+o+-
 
 (use-package json :ensure t)
 (use-package flycheck :ensure t)
-(use-package cmake-ide :ensure t)
 
 (defun my-parse-jslinter-warning (warning)
   (flycheck-error-new
@@ -223,94 +222,6 @@ See URL `https://github.com/tensor5/JSLinter'."
   :config
   (progn
     (global-flycheck-mode)))
-
-(add-hook 'c++-mode-hook 'lsp)
-(add-hook 'c++-mode-hook 'company-mode)
-
-;(req-package irony
-;  :config
-;  (progn
-;    ;; If irony server was never installed, install it.
-;    (unless (irony--find-server-executable) (call-interactively #'irony-install-server));;
-
-;    (add-hook 'c++-mode-hook 'irony-mode)
-;    (add-hook 'c-mode-hook 'irony-mode)
-;    (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
-
-    ;; Use compilation database first, clang_complete as fallback.
-;    (setq-default irony-cdb-compilation-databases '(irony-cdb-libclang
-;                                                      irony-cdb-clang-complete))
-
-;    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-;    ))
-
-;; replace the `completion-at-point' and `complete-symbol' bindings in
-;; irony-mode's buffers by irony-mode's function
-;;(defun my-irony-mode-hook ()
-;;  (define-key irony-mode-map [remap completion-at-point]
-;;    'irony-completion-at-point-async)
-;;  (define-key irony-mode-map [remap complete-symbol]
-;;    'irony-completion-at-point-async))
-
-;(add-hook 'irony-mode-hook 'my-irony-mode-hook)
-;(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-;(eval-after-load 'company
-;  '(add-to-list 'company-backends 'company-irony))
-;; (optional) adds CC special commands to `company-begin-commands' in order to
-;; trigger completion at interesting places, such as after scope operator
-;;     std::|
-;(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
-
-  ;; I use irony with company to get code completion.
-;  (req-package company-irony
-;    :require company irony
-;    :config
-;    (progn
-;      (eval-after-load 'company '(add-to-list 'company-backends 'company-irony))))
-
-;; (add-to-list 'company-c-headers-path-system "/usr/include/c++/7.5.0/")
-;;(add-to-list 'company-backends 'company-c-headers)
-
-;(global-set-key (kbd "C-;") 'complete-symbol)
-
-  ;; I use irony with flycheck to get real-time syntax checking.
-;  (req-package flycheck-irony
-;    :require flycheck irony
-;    :config
-;    (progn
-;      (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
-
-  ;; Eldoc shows argument list of the function you are currently writing in the echo area.
-;  (req-package irony-eldoc
-;    :require eldoc irony
-;    :config
-;    (progn
-;      (add-hook 'irony-mode-hook #'irony-eldoc)))
-
-
-;; (use-package rtags :ensure t)
-;; (req-package rtags
-;;   :config
-;;   (progn
-;;     (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
-;;     (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
-
-;;     (define-key c-mode-base-map (kbd "C-c g") 'rtags-find-symbol-at-point)
-;;     (define-key c-mode-base-map (kbd "C-c r") 'rtags-find-references-at-point)
-;;     (define-key c-mode-base-map (kbd "C-c s") 'rtags-display-summary)
-;;     (define-key c-mode-base-map (kbd "C-c u") 'pop-global-mark)
-;;     (define-key c-mode-base-map (kbd "C-c o") 'helm-occur)
-;;     (define-key c-mode-base-map (kbd "C-c i") 'helm-semantic-or-imenu)
-    
-;;     ;;(define-key c-mode-base-map (kbd "TAB") 'irony-mode-map)
-;;     (define-key c-mode-base-map (kbd "<backtab>") 'company-c-headers)
-;;     (rtags-enable-standard-keybindings)
-
-;;     (setq rtags-use-helm t)
-
-;;     ;; Shutdown rdm when leaving emacs.
-;;     (add-hook 'kill-emacs-hook 'rtags-quit-rdm)
-;;     ))
 
 (use-package projectile :ensure t)
 (req-package projectile
@@ -628,30 +539,6 @@ See URL `https://github.com/tensor5/JSLinter'."
   (require 'dap-cpptools)
   (yas-global-mode))
 
-
-;;(setq cmake-ide-build-dir "build")
-;;(setq irony-cdb-search-directory-list "build")
-
-;; (use-package cmake-ide
-;;   :after projectile
-;;   :hook (c++-mode . my/cmake-ide-find-project)
-;;   :preface
-;;   (defun my/cmake-ide-find-project ()
-;;     "Finds the directory of the project for cmake-ide."
-;;     (with-eval-after-load 'projectile
-;;       (setq cmake-ide-project-dir (projectile-project-root))
-;;       (setq cmake-ide-build-dir (concat cmake-ide-project-dir "build")))
-;;     (setq cmake-ide-compile-command
-;;             (concat "cd " cmake-ide-build-dir " && cmake .. && make -j8"))
-;;     (cmake-ide-load-db))
-
-;;   (defun my/switch-to-compilation-window ()
-;;     "Switches to the *compilation* buffer after compilation."
-;;     (other-window 1))
-;;   ;;:bind ([remap comment-region] . cmake-ide-compile)
-;;   :init (cmake-ide-setup)
-;;   :config (advice-add 'cmake-ide-compile :after #'my/switch-to-compilation-window))
-
 (defun cmake-run-json()
   "Run cmake command in DIR."
   (interactive
@@ -666,13 +553,6 @@ See URL `https://github.com/tensor5/JSLinter'."
   )
 
 (global-set-key (kbd "C-c c") 'cmake-run-json)
-;;(global-set-key (kbd "C-c m") 'cmake-ide-run-cmake)
-;;(global-set-key (kbd "C-c g") 'lsp-find-definition)
-  
-;;(setq irony-cdb-search-directory-list (concat cmake-ide-project-dir "build"))
-
-;;(require 'rtags) ;; optional, must have rtags installed
-;;(cmake-ide-setup)
 
 (custom-set-variables '(gdb-many-windows t))
 
