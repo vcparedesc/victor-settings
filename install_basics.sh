@@ -58,3 +58,7 @@ cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .
 make
 
 cd ~/
+
+# TROUBLESHOOTING
+# If Emacs is having problems recognizing c++ headers in LSP + Clangd, check if libstdc++-10 is installed
+# https://emacs.stackexchange.com/questions/61179/lsp-mode-does-not-recognize-standard-library

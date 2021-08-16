@@ -1,4 +1,4 @@
-;;(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :height 125)
 
 (setq delete-old-versions -1 )          ; delete excess backup versions silently
 (setq version-control t )               ; use version control
