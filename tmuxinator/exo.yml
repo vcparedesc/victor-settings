@@ -1,6 +1,6 @@
-# /home/victor/.config/tmuxinator/digit.yml
+# /home/victor/.config/tmuxinator/exo.yml
 
-name: digit
+name: exo
 root: ~/
 
 # Optional tmux socket
@@ -40,42 +40,13 @@ root: ~/
 # attach: false
 
 windows:
-  - simulation:
+  - editor:
       layout: main-vertical
       # Synchronize all panes of this window, can be enabled before or after the pane commands run.
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
       # synchronize: after
-      layout: b9f0,211x56,0,0[211x27,0,0{106x27,0,0,0,104x27,107,0,4},211x28,0,28{105x28,0,28,5,105x28,106,28,7}]
       panes:
-        - roscd digit_main/simulator/bin
-        - roscd digit_main
-        - roscd digit_main/scripts
-        - roscd digit_main
-  - code:
-      layout: main-vertical
-      panes:
-        - emacs ~/catkin_ws/src/digit_main/src/SubscriberSample.cpp
-  - matlab:
-      layout: main-vertical
-      panes:
-      - matlab
-  - hardware:
-     layout: 919a,80x23,0,0[80x11,0,0,2,80x11,0,12,3]
-     panes:
-      - roscd digit_main
-      - roscd digit_main/scripts
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        - vim
+        - guard
+  - server: bundle exec rails s
+  - logs: tail -f log/development.log
