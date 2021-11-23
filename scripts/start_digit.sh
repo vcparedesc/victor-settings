@@ -1,4 +1,4 @@
-end_digit.sh
+source end_digit.sh
 tmux select-pane -t 0
 tmux send-keys "./ar-control lowlevelapi_example.toml"
 tmux send-keys Enter
