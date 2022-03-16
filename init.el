@@ -308,6 +308,9 @@ See URL `https://github.com/tensor5/JSLinter'."
  "C-x C-o" 'ff-find-other-file
  )
 
+(setq scroll-step            1
+      scroll-conservatively  10000)
+
 (use-package better-defaults :ensure t)
 (use-package elpy :ensure t)
 (use-package py-autopep8 :ensure t)
