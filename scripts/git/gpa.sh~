@@ -1,0 +1,6 @@
+#git add .
+#git commit -m "@$1" 
+#git push origin @$2
+
+echo "generating a command \"$1\""
+echo $2
