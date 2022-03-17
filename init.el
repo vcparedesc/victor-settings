@@ -555,7 +555,24 @@ See URL `https://github.com/tensor5/JSLinter'."
     ))
   )
 
+(defun c-run-executable()
+  (interactive
+   ;;(setq executable (read-string "Enter name: "))
+   (with-eval-after-load 'projectile
+     (defvar cmake-json-dir (projectile-project-root))
+     (defvar cmake-build-dir (concat cmake-json-dir "build/"))
+
+     (let* ( (default-directory cmake-build-dir)
+     (executable (read-file-name "Enter name: ")))
+     (setq foo (concat "exec " executable)))
+     (print foo)
+     (shell-command  foo))
+   )
+  )
+
 (global-set-key (kbd "C-c c") 'cmake-run-json)
+(global-set-key (kbd "C-c x") 'c-run-executable)
+
 
 (custom-set-variables '(gdb-many-windows t))
 
