@@ -10,12 +10,11 @@ cd -
 sudo apt update
 sudo apt upgrade
 
-mkdir Repositories
+mkdir -p Personal/Repositories
 mkdir -p Research/Repositories
 
 sudo apt install git -y
 sudo apt install meld -y
-sudo apt install konsole -y
 sudo apt install minicom -y
 sudo apt install emacs -y
 sudo apt install shutter -y
@@ -28,7 +27,6 @@ sudo apt install zsh -y
 sudo apt install fonts-powerline -y
 sudo apt install g++-6 -y
 sudo apt install tmux -y
-sudo apt install wine1.6 -y
 #sudo apt install texlive-full -y
 
 # To provide functionality for elpy:
