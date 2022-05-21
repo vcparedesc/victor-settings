@@ -33,7 +33,7 @@
   ;; Enable custom neotree theme (all-the-icons must be installed!)
   (doom-themes-neotree-config)
   ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (setq doom-themes-treemacs-theme "doom-one") ; use "doom-colors" for less minimal icon theme
   (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
@@ -42,18 +42,50 @@
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (fringe-mode 1)
+(tab-bar-mode 1)
+
+(use-package exwm :ensure t)
+(require 'exwm)
+(require 'exwm-config)
+(exwm-config-example)
+
+(exwm-workspace-switch 1)
+
+(start-process-shell-command "firefox" nil "firefox")
+
+(sleep-for 3)
+
+(use-package highlight-indent-guides :ensure t)
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+(setq highlight-indent-guides-method 'character)
+
+;; We then install fira-code-mode-install-fonts
+(use-package fira-code-mode
+  :ensure t
+  :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x")) ;; List of ligatures to turn off
+  :config (fira-code-mode-set-font)
+  :hook prog-mode) ;; Enables fira-code-mode automatically for programming major modes
+
+;; vterm requirement, DO: sudo apt install libtool-bin 
+(use-package vterm
+  :ensure t)
+(use-package multi-vterm :ensure t)
+
+(winner-mode 1)
 
 (use-package ace-window :ensure t)
 (global-set-key (kbd "M-o") 'ace-window)
 (global-set-key (kbd "M-0") 'treemacs-select-window)
-(global-set-key (kbd "C-x t") 'treemacs)
+(global-set-key (kbd "C-x t t") 'treemacs)
 
 (global-display-line-numbers-mode)
 (global-hl-line-mode 1)
 
 (use-package lsp-mode
   :init (setq lsp-keymap-prefix "C-c l"))
-(set-face-attribute 'nobreak-space nil :underline 'unspecified :inherit 'unspecified)  
+;;(set-face-attribute 'nobreak-space nil :underline 'unspecified :inherit 'unspecified)
+;;(setq lsp-ui-doc-position 'at-point)
+(setq lsp-ui-doc-use-childframe nil)
 
 ;; sample `helm' configuration use https://github.com/emacs-helm/helm/ for details
 (helm-mode)
@@ -84,14 +116,13 @@
  ;; If there is more than one, they won't work right.
  '(gdb-many-windows t)
  '(package-selected-packages
-   (quote
-    (all-the-icons-install-fonts helm-projectile cmake-mode treemacs-icons-dired all-the-icons counsel doom-themes use-package lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode))))
+   '(exwm multi-vterm vterm highlight-indent-guides fira-code-mode all-the-icons-install-fonts helm-projectile cmake-mode treemacs-icons-dired all-the-icons counsel doom-themes use-package lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:background nil)))))
 
 (use-package req-package :ensure t)
 (use-package general :ensure t
@@ -160,6 +191,7 @@
   )
   
 
+(global-set-key (kbd "C-c g") 'lsp-find-definition)
 (global-set-key (kbd "C-c c") 'cmake-run-json)
 (global-set-key (kbd "C-c x") 'c-run-executable)
 (global-set-key (kbd "C-c f c") 'c-quick-compile)
@@ -190,6 +222,8 @@
 (use-package org :ensure t)
 (use-package all-the-icons :ensure t)
 
+(use-package treemacs-projectile :ensure t)
+
 (use-package treemacs-icons-dired
   :after (treemacs dired)
   :ensure t
@@ -204,6 +238,7 @@
     (setq projectile-completion-system 'helm)
     (helm-projectile-on)
     ))
+
 
 (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
 (global-set-key (kbd "C-x p a") 'projectile-find-other-file)
