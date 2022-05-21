@@ -45,15 +45,13 @@
 (tab-bar-mode 1)
 
 (use-package exwm :ensure t)
-(require 'exwm)
-(require 'exwm-config)
-(exwm-config-example)
+;;(require 'exwm)
+;;(require 'exwm-config)
+;;(exwm-config-example)
 
-(exwm-workspace-switch 1)
-
-(start-process-shell-command "firefox" nil "firefox")
-
-(sleep-for 3)
+;;(exwm-workspace-switch 1)
+;;(start-process-shell-command "firefox" nil "firefox")
+;;(sleep-for 3)
 
 (use-package highlight-indent-guides :ensure t)
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
@@ -83,9 +81,13 @@
 
 (use-package lsp-mode
   :init (setq lsp-keymap-prefix "C-c l"))
-;;(set-face-attribute 'nobreak-space nil :underline 'unspecified :inherit 'unspecified)
+(set-face-attribute 'nobreak-space nil :underline 'unspecified :inherit 'unspecified)
 ;;(setq lsp-ui-doc-position 'at-point)
+(use-package lsp-ui :ensure t)
+(setq lsp-ui-doc-enable t)
+(setq lsp-ui-doc-show-with-cursor t)
 (setq lsp-ui-doc-use-childframe nil)
+(setq lsp-headerline-breadcrumb-enable-diagnostics nil)
 
 ;; sample `helm' configuration use https://github.com/emacs-helm/helm/ for details
 (helm-mode)
@@ -116,7 +118,7 @@
  ;; If there is more than one, they won't work right.
  '(gdb-many-windows t)
  '(package-selected-packages
-   '(exwm multi-vterm vterm highlight-indent-guides fira-code-mode all-the-icons-install-fonts helm-projectile cmake-mode treemacs-icons-dired all-the-icons counsel doom-themes use-package lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode)))
+   '(lsp-ui treemacs-projectile exwm multi-vterm vterm highlight-indent-guides fira-code-mode all-the-icons-install-fonts helm-projectile cmake-mode treemacs-icons-dired all-the-icons counsel doom-themes use-package lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
