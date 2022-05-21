@@ -66,7 +66,11 @@
 
 ;; vterm requirement, DO: sudo apt install libtool-bin 
 (use-package vterm
-  :ensure t)
+  :ensure t
+  :config
+  (setq vterm-timer-delay 0.01)
+  (global-set-key (kbd "C-x t v") 'multi-vterm)  
+  )
 (use-package multi-vterm :ensure t)
 
 (winner-mode 1)
