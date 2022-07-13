@@ -222,7 +222,7 @@
   )
   )
 
-;;(global-set-key (kbd "C-x C-r q") 'ros-catkin-make)
+(global-set-key (kbd "C-x r q") 'ros-catkin-make)
 (global-set-key (kbd "s-u") 'uncomment-region)
 
 (use-package org :ensure t)
