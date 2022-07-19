@@ -42,9 +42,18 @@
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (fringe-mode 1)
-(tab-bar-mode 1)
 
-(use-package exwm :ensure t)
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+  backup-by-copying t    ; Don't delink hardlinks
+  version-control t      ; Use version numbers on backups
+  delete-old-versions t  ; Automatically delete excess backups
+  kept-new-versions 20   ; how many of the newest versions to keep
+  kept-old-versions 5    ; and how many of the old
+  )
+
+;;(tab-bar-mode 1)
+
+;;(use-package exwm :ensure t)
 ;;(require 'exwm)
 ;;(require 'exwm-config)
 ;;(exwm-config-example)
@@ -52,6 +61,15 @@
 ;;(exwm-workspace-switch 1)
 ;;(start-process-shell-command "firefox" nil "firefox")
 ;;(sleep-for 3)
+
+(use-package perspective
+  :ensure t
+  :bind
+  ("C-x C-b" . persp-list-buffers)         ; or use a nicer switcher, see below
+  :custom
+  (persp-mode-prefix-key (kbd "C-c M-p"))  ; pick your own prefix key here
+  :init
+  (persp-mode))
 
 (use-package highlight-indent-guides :ensure t)
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
@@ -122,7 +140,7 @@
  ;; If there is more than one, they won't work right.
  '(gdb-many-windows t)
  '(package-selected-packages
-   '(lsp-ui treemacs-projectile exwm multi-vterm vterm highlight-indent-guides fira-code-mode all-the-icons-install-fonts helm-projectile cmake-mode treemacs-icons-dired all-the-icons counsel doom-themes use-package lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode)))
+   '(perspective lsp-ui treemacs-projectile exwm multi-vterm vterm highlight-indent-guides fira-code-mode all-the-icons-install-fonts helm-projectile cmake-mode treemacs-icons-dired all-the-icons counsel doom-themes use-package lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
