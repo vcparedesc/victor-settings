@@ -57,6 +57,9 @@ make
 
 cd ~/
 
+## ENABLING ZSH to use Globbing wildcard *
+setopt extended_glob
+
 # TROUBLESHOOTING
 # If Emacs is having problems recognizing c++ headers in LSP + Clangd, check if libstdc++-10 is installed
 # https://emacs.stackexchange.com/questions/61179/lsp-mode-does-not-recognize-standard-library
