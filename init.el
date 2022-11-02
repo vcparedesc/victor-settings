@@ -160,6 +160,7 @@
   (require 'dap-python))
 
 (setq indent-tabs-mode t)
+(setq python-indent-guess-indent-offset nil)
 (setq lsp-diagnostics-provider :none)
 ;; (use-package company
 ;;   :after lsp-mode
