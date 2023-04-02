@@ -3,9 +3,14 @@
 # License: CC-0/Public-Domain license  
 # author: deevad  
 
-# Tablet definition  
-tabletstylus="HUION Huion Tablet_H640P stylus"  
-tabletpad="HUION Huion Tablet_H640P Pad pad"  
+# Tablet definition
+# The name of the pad and stylus should match one of the devices in: xsetwacom --list devices
+tabletstylus="HUION Huion Tablet_H640P Pen stylus"  
+tabletpad="HUION Huion Tablet_H640P Pad pad"
+
+# To get the monitor names run: xrandr --listactivemonitors
+#monitorname="HEAD-1"
+monitorname="HDMI-1"
 
 # Reset  
 xsetwacom --set "$tabletstylus" ResetArea  
@@ -21,7 +26,7 @@ tabletY=34925
 screenX=1920  
 screenY=1080  
 # map to good screen (dual nvidia)  
-xsetwacom --set "$tabletstylus" MapToOutput "HEAD-1"  
+xsetwacom --set "$tabletstylus" MapToOutput "$monitorname"
 # setup ratio :  
 #newtabletY=$(( $screenY * $tabletX / $screenX ))  
 #xsetwacom --set "$tabletstylus" Area 0 0 "$tabletX" "$newtabletY"  
