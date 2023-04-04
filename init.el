@@ -140,7 +140,7 @@
  ;; If there is more than one, they won't work right.
  '(gdb-many-windows t)
  '(package-selected-packages
-   '(smart-tabs-mode company-box python-mode perspective lsp-ui treemacs-projectile exwm multi-vterm vterm highlight-indent-guides fira-code-mode all-the-icons-install-fonts helm-projectile cmake-mode treemacs-icons-dired all-the-icons counsel doom-themes use-package lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode)))
+   '(all-the-icons-gnus all-the-icons-ibuffer all-the-icons-ivy all-the-icons-ivy-rich nyan-mode all-the-icons-dired all-the-icons-completion spaceline-all-the-icons treemacs-all-the-icons magit general req-package smart-tabs-mode company-box python-mode perspective lsp-ui treemacs-projectile exwm multi-vterm vterm highlight-indent-guides fira-code-mode all-the-icons-install-fonts helm-projectile cmake-mode treemacs-icons-dired all-the-icons counsel doom-themes use-package lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -296,3 +296,17 @@
 (global-set-key (kbd "C-x p a") 'projectile-find-other-file)
 (global-set-key (kbd "C-x p f") 'projectile-find-file)
 (projectile-global-mode)
+
+
+;; Okay, let's create a default frame configuration on startup
+(defun emacs-default-frames ()
+  (persp-switch "terminals")
+  (split-window-below)  ; split the current window vertically
+  (other-window 0)
+  (multi-vterm)
+  (other-window 1)
+  (multi-vterm)
+)
+
+;; Run the function on startup
+(add-hook 'emacs-startup-hook 'emacs-default-frames)
